@@ -21,7 +21,7 @@ El municipio está dividido en zonas urbanas (colonias) donde se han construido 
 
 ## Modelo de datos
 
-El modelo tiene 7 tablas. Los tipos de dato, tamaños y restricciones de cada columna están en el [diccionario de datos](docs/diccionario_de_datos.pdf).
+El modelo tiene 7 tablas. Los tipos de dato, tamaños y restricciones de cada columna están en el diccionario de datos.
 
 | Tabla | Descripción |
 | --- | --- |
@@ -41,8 +41,6 @@ El modelo tiene 7 tablas. Los tipos de dato, tamaños y restricciones de cada co
 - Familias y personas se relacionan mediante `tfamiliapersona`.
 
 Todas las llaves foráneas usan `ON UPDATE CASCADE` y `ON DELETE RESTRICT` (valor por defecto de MySQL).
-
-![Diagrama entidad-relación](docs/DER.png)
 
 ## Instalación
 
