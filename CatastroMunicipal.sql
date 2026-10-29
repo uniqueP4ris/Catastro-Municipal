@@ -604,7 +604,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vapellidofamilia` AS select `f`.`idFamilia` AS `idFamilia`,`fp`.`idFamiliaPersona` AS `idFamiliaPersona`,concat(`p`.`nombres`,' ',`p`.`aPaterno`,' ',`p`.`aMaterno`) AS `Nombre Persona`,`f`.`nombreFamilia` AS `Nombre de la Familia`,(case when ((`f`.`nombreFamilia` like concat('%',`p`.`aPaterno`,'%')) and (`f`.`nombreFamilia` like concat('%',`p`.`aMaterno`,'%'))) then 'Coincide' else 'No coincide' end) AS `Comparación apellidos` from ((`tpersona` `p` join `tfamiliapersona` `fp` on((`p`.`idPersona` = `fp`.`idPersona`))) join `tfamilia` `f` on((`fp`.`idFamilia` = `f`.`idFamilia`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -622,7 +621,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vbloquesaltos` AS select `v`.`calle` AS `Calle`,`v`.`numVivienda` AS `Número de vivienda`,`z`.`nombreZonaUrbana` AS `Zona`,`v`.`cantidadPisos` AS `Cantidad de pisos` from (`tvivienda` `v` join `tzonaurbana` `z` on((`v`.`idZonaUrbana` = `z`.`idZonaUrbana`))) where ((`v`.`idTipo` = 2) and (`v`.`cantidadPisos` >= 4)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -640,7 +638,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vcabezasfamiliadomicilio` AS select distinct `f`.`idFamilia` AS `idFamilia`,`f`.`nombreFamilia` AS `nombreFamilia`,`p`.`idPersona` AS `idPersona`,concat_ws(' ',`p`.`nombres`,`p`.`aPaterno`,`p`.`aMaterno`) AS `CabezaFamilia`,`v`.`idVivienda` AS `idVivienda`,concat(`v`.`calle`,' #',`v`.`numVivienda`,', ',`z`.`nombreZonaUrbana`) AS `Domicilio`,`z`.`nombreZonaUrbana` AS `Zona` from (((((`tfamilia` `f` join `tfamiliapersona` `fp` on((`f`.`idFamilia` = `fp`.`idFamilia`))) join `tpersona` `p` on((`fp`.`idPersona` = `p`.`idPersona`))) join `tpersonavivienda` `pv` on((`p`.`idPersona` = `pv`.`idPersona`))) join `tvivienda` `v` on((`pv`.`idVivienda` = `v`.`idVivienda`))) join `tzonaurbana` `z` on((`v`.`idZonaUrbana` = `z`.`idZonaUrbana`))) where (`fp`.`cabeceraFamilia` = 1) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -658,7 +655,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vcapacidadvivienda` AS select `h`.`idVivienda` AS `idVivienda`,`h`.`calle` AS `calle`,`h`.`numVivienda` AS `numVivienda`,`t`.`nombreTipo` AS `tipo`,(case when (`v`.`idTipo` = 1) then 5 when (`v`.`idTipo` = 2) then 3 end) AS `limite`,`h`.`habitantes` AS `habitantes`,((case when (`v`.`idTipo` = 1) then 5 when (`v`.`idTipo` = 2) then 3 end) - `h`.`habitantes`) AS `lugaresLibres` from ((`vhabitantesporvivienda` `h` join `tvivienda` `v` on((`h`.`idVivienda` = `v`.`idVivienda`))) join `ttipo` `t` on((`v`.`idTipo` = `t`.`idTipo`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -676,7 +672,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vdireccionpropietario` AS select `v`.`idVivienda` AS `idVivienda`,coalesce(group_concat(distinct (case when (`p`.`idPersona` is not null) then concat_ws(' ',`p`.`aPaterno`,`p`.`aMaterno`,`p`.`nombres`) end) separator '; '),'Sin propietario') AS `Propietario`,concat(`v`.`calle`,' #',`v`.`numVivienda`,', ',`z`.`nombreZonaUrbana`) AS `Direccion` from (((`tvivienda` `v` join `tzonaurbana` `z` on((`v`.`idZonaUrbana` = `z`.`idZonaUrbana`))) left join `tpersonavivienda` `pv` on(((`v`.`idVivienda` = `pv`.`idVivienda`) and (`pv`.`propietario` = 1)))) left join `tpersona` `p` on((`pv`.`idPersona` = `p`.`idPersona`))) group by `v`.`idVivienda`,`v`.`calle`,`v`.`numVivienda`,`z`.`nombreZonaUrbana` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -694,7 +689,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vfamiliapersona` AS select `f`.`idFamilia` AS `idFamilia`,`f`.`nombreFamilia` AS `nombreFamilia`,`fp`.`cabeceraFamilia` AS `Es Cabecera (1=Si, 0=No)`,`p`.`idPersona` AS `idPersona`,`p`.`nombres` AS `nombres`,`p`.`aPaterno` AS `aPaterno`,`p`.`aMaterno` AS `aMaterno` from ((`tfamiliapersona` `fp` join `tfamilia` `f` on((`f`.`idFamilia` = `fp`.`idFamilia`))) join `tpersona` `p` on((`p`.`idPersona` = `fp`.`idPersona`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -712,7 +706,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vfamiliascabecerasinvalidas` AS select `f`.`idFamilia` AS `idFamilia`,`f`.`nombreFamilia` AS `nombreFamilia`,count(distinct (case when (`fp`.`cabeceraFamilia` = 1) then `fp`.`idPersona` end)) AS `TotalCabeceras` from (`tfamilia` `f` left join `tfamiliapersona` `fp` on((`f`.`idFamilia` = `fp`.`idFamilia`))) group by `f`.`idFamilia`,`f`.`nombreFamilia` having ((`TotalCabeceras` = 0) or (`TotalCabeceras` > 1)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -730,7 +723,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vfamiliasmultivivienda` AS select `f`.`idFamilia` AS `idFamilia`,`f`.`nombreFamilia` AS `nombreFamilia`,count(distinct `pv`.`idVivienda`) AS `TotalViviendasDistintas` from ((`tfamilia` `f` join `tfamiliapersona` `fp` on((`f`.`idFamilia` = `fp`.`idFamilia`))) join `tpersonavivienda` `pv` on((`fp`.`idPersona` = `pv`.`idPersona`))) group by `f`.`idFamilia`,`f`.`nombreFamilia` having (count(distinct `pv`.`idVivienda`) > 1) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -748,7 +740,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vhabitantesnopropietarios` AS select `v`.`idVivienda` AS `idVivienda`,`p`.`idPersona` AS `idHabitante`,concat_ws(' ',`p`.`nombres`,`p`.`aPaterno`,`p`.`aMaterno`) AS `Habitante`,`p2`.`idPersona` AS `idPropietario`,concat_ws(' ',`p2`.`nombres`,`p2`.`aPaterno`,`p2`.`aMaterno`) AS `Propietario`,`v`.`calle` AS `calle`,`v`.`numVivienda` AS `numVivienda`,`z`.`nombreZonaUrbana` AS `Zona` from (((((`tpersonavivienda` `pv` join `tpersona` `p` on((`pv`.`idPersona` = `p`.`idPersona`))) join `tvivienda` `v` on((`pv`.`idVivienda` = `v`.`idVivienda`))) join `tzonaurbana` `z` on((`v`.`idZonaUrbana` = `z`.`idZonaUrbana`))) join `tpersonavivienda` `pv2` on(((`pv`.`idVivienda` = `pv2`.`idVivienda`) and (`pv2`.`propietario` = 1)))) join `tpersona` `p2` on((`pv2`.`idPersona` = `p2`.`idPersona`))) where ((`pv`.`propietario` = 0) and (`pv`.`idPersona` <> `pv2`.`idPersona`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -766,7 +757,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vhabitantesporvivienda` AS select `v`.`idVivienda` AS `idVivienda`,`v`.`calle` AS `calle`,`v`.`numVivienda` AS `numVivienda`,count(distinct `pv`.`idPersona`) AS `habitantes` from (`tvivienda` `v` left join `tpersonavivienda` `pv` on((`v`.`idVivienda` = `pv`.`idVivienda`))) group by `v`.`idVivienda`,`v`.`calle`,`v`.`numVivienda` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -784,7 +774,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vpersonasmultivivienda` AS select `p`.`idPersona` AS `idPersona`,concat_ws(' ',`p`.`aPaterno`,`p`.`aMaterno`,`p`.`nombres`) AS `Residente`,count(distinct `pv`.`idVivienda`) AS `TotalViviendasHabitadas` from (`tpersona` `p` join `tpersonavivienda` `pv` on((`p`.`idPersona` = `pv`.`idPersona`))) group by `p`.`idPersona`,`p`.`aPaterno`,`p`.`aMaterno`,`p`.`nombres` having (count(distinct `pv`.`idVivienda`) > 1) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -802,7 +791,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vpersonassinvivienda` AS select `p`.`idPersona` AS `idPersona`,concat_ws(' ',`p`.`nombres`,`p`.`aPaterno`,`p`.`aMaterno`) AS `NombreCompleto` from (`tpersona` `p` left join `tpersonavivienda` `pv` on((`p`.`idPersona` = `pv`.`idPersona`))) where (`pv`.`idPersona` is null) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -820,7 +808,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vpersonavivienda` AS select `pv`.`idPersonaVivienda` AS `Código Registro`,`p`.`idPersona` AS `idPersona`,`p`.`nombres` AS `nombres`,`p`.`aPaterno` AS `aPaterno`,`p`.`aMaterno` AS `aMaterno`,`pv`.`propietario` AS `Es Propietario (1=Si, 0=No)`,`v`.`calle` AS `calle`,`v`.`numVivienda` AS `numVivienda`,`z`.`nombreZonaUrbana` AS `Zona Urbana`,`t`.`nombreTipo` AS `Tipo` from ((((`tpersonavivienda` `pv` join `tpersona` `p` on((`p`.`idPersona` = `pv`.`idPersona`))) join `tvivienda` `v` on((`v`.`idVivienda` = `pv`.`idVivienda`))) join `tzonaurbana` `z` on((`z`.`idZonaUrbana` = `v`.`idZonaUrbana`))) join `ttipo` `t` on((`t`.`idTipo` = `v`.`idTipo`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -838,7 +825,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vpropietarionohabitavivienda` AS select `p`.`idPersona` AS `idPersona`,concat(`p`.`nombres`,' ',`p`.`aPaterno`,' ',`p`.`aMaterno`) AS `concat(p.nombres, ' ', p.aPaterno, ' ', p.aMaterno)`,`v1`.`calle` AS `callePropiedad`,`v1`.`numVivienda` AS `numViviendaPropiedad`,`v2`.`calle` AS `calleHabita`,`v2`.`numVivienda` AS `numViviendaHabita` from ((((`tpersonavivienda` `pv1` join `tpersona` `p` on((`p`.`idPersona` = `pv1`.`idPersona`))) join `tvivienda` `v1` on((`v1`.`idVivienda` = `pv1`.`idVivienda`))) join `tpersonavivienda` `pv2` on(((`pv2`.`idPersona` = `pv1`.`idPersona`) and (`pv2`.`propietario` = 0)))) join `tvivienda` `v2` on((`v2`.`idVivienda` = `pv2`.`idVivienda`))) where ((`pv1`.`propietario` = 1) and (`pv1`.`idVivienda` <> `pv2`.`idVivienda`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -856,7 +842,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vresumenfamilia` AS select `f`.`idFamilia` AS `idFamilia`,`f`.`nombreFamilia` AS `NombreFamilia`,count(distinct `fp`.`idPersona`) AS `TotalIntegrantes`,coalesce(group_concat(distinct (case when (`fp`.`cabeceraFamilia` = 1) then concat_ws(' ',`p`.`aPaterno`,`p`.`aMaterno`,`p`.`nombres`) end) separator '; '),'Sin cabecera') AS `CabezaFamilia` from ((`tfamilia` `f` left join `tfamiliapersona` `fp` on((`f`.`idFamilia` = `fp`.`idFamilia`))) left join `tpersona` `p` on((`fp`.`idPersona` = `p`.`idPersona`))) group by `f`.`idFamilia`,`f`.`nombreFamilia` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -874,7 +859,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vresumentipovivienda` AS select `t`.`nombreTipo` AS `Tipo de vivienda`,count(0) AS `Total de viviendas`,avg(`h`.`habitantes`) AS `Promedio de habitantes por vivienda`,avg((case when (`v`.`idTipo` = 2) then `v`.`cantidadPisos` end)) AS `Promedio de pisos` from ((`tvivienda` `v` join `ttipo` `t` on((`v`.`idTipo` = `t`.`idTipo`))) join `vhabitantesporvivienda` `h` on((`v`.`idVivienda` = `h`.`idVivienda`))) where (`v`.`idTipo` in (1,2)) group by `t`.`idTipo`,`t`.`nombreTipo` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -892,7 +876,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vresumenzona` AS select `z`.`nombreZonaUrbana` AS `Zona`,count(distinct `v`.`idVivienda`) AS `Total de viviendas`,count(distinct (case when (`v`.`idTipo` = 1) then `v`.`idVivienda` end)) AS `Casas`,count(distinct (case when (`v`.`idTipo` = 2) then `v`.`idVivienda` end)) AS `Bloques`,count(distinct `pv`.`idPersona`) AS `Total de habitantes` from ((`tzonaurbana` `z` left join `tvivienda` `v` on((`v`.`idZonaUrbana` = `z`.`idZonaUrbana`))) left join `tpersonavivienda` `pv` on((`pv`.`idVivienda` = `v`.`idVivienda`))) group by `z`.`idZonaUrbana`,`z`.`nombreZonaUrbana` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -910,7 +893,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vtotalviviendapropietario` AS select `p`.`idPersona` AS `idPersona`,concat_ws(' ',`p`.`aPaterno`,`p`.`aMaterno`,`p`.`nombres`) AS `Propietario`,count(distinct `pv`.`idVivienda`) AS `TotalViviendas` from (`tpersonavivienda` `pv` join `tpersona` `p` on((`pv`.`idPersona` = `p`.`idPersona`))) where (`pv`.`propietario` = 1) group by `p`.`idPersona`,`p`.`aPaterno`,`p`.`aMaterno`,`p`.`nombres` having (count(distinct `pv`.`idVivienda`) >= 2) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -928,7 +910,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vvivienda` AS select `v`.`idVivienda` AS `idVivienda`,`v`.`calle` AS `calle`,`v`.`numVivienda` AS `numVivienda`,`v`.`cantidadPisos` AS `cantidadPisos`,`z`.`nombreZonaUrbana` AS `Zona Urbana`,`t`.`nombreTipo` AS `Tipo de Vivienda` from ((`tvivienda` `v` join `tzonaurbana` `z` on((`z`.`idZonaUrbana` = `v`.`idZonaUrbana`))) join `ttipo` `t` on((`t`.`idTipo` = `v`.`idTipo`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -946,7 +927,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vviviendasllenas` AS select `c`.`idVivienda` AS `idVivienda`,`c`.`calle` AS `calle`,`c`.`numVivienda` AS `numVivienda`,`z`.`nombreZonaUrbana` AS `zona`,`c`.`tipo` AS `tipo`,`c`.`limite` AS `limite`,`c`.`habitantes` AS `habitantes` from ((`vcapacidadvivienda` `c` join `tvivienda` `v` on((`c`.`idVivienda` = `v`.`idVivienda`))) join `tzonaurbana` `z` on((`v`.`idZonaUrbana` = `z`.`idZonaUrbana`))) where (`c`.`habitantes` >= `c`.`limite`) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -964,7 +944,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vviviendassinhabitantes` AS select `h`.`idVivienda` AS `idVivienda`,concat(`h`.`calle`,' #',`h`.`numVivienda`,', ',`z`.`nombreZonaUrbana`) AS `direccionCompleta`,`h`.`calle` AS `calle`,`h`.`numVivienda` AS `numVivienda`,`z`.`nombreZonaUrbana` AS `zona` from ((`vhabitantesporvivienda` `h` join `tvivienda` `v` on((`h`.`idVivienda` = `v`.`idVivienda`))) join `tzonaurbana` `z` on((`v`.`idZonaUrbana` = `z`.`idZonaUrbana`))) where (`h`.`habitantes` = 0) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -982,7 +961,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb3 */;
 /*!50001 SET collation_connection      = utf8mb3_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vviviendassinpropietariooduplicados` AS select `v`.`idVivienda` AS `idVivienda`,`v`.`calle` AS `calle`,`v`.`numVivienda` AS `numVivienda`,count(`pv`.`idPersona`) AS `totalPropietarios` from (`tvivienda` `v` left join `tpersonavivienda` `pv` on(((`v`.`idVivienda` = `pv`.`idVivienda`) and (`pv`.`propietario` = 1)))) group by `v`.`idVivienda`,`v`.`calle`,`v`.`numVivienda` having ((count(`pv`.`idPersona`) = 0) or (count(`pv`.`idPersona`) > 1)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
