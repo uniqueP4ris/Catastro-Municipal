@@ -587,7 +587,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `cabecerafamilias` AS select `p`.`nombres` AS `Nombre de la Cabecera de la Familia`,`f`.`nombreFamilia` AS `Nombre de la Familia`,`f`.`idFamilia` AS `Número de la Familia`,`v`.`calle` AS `Calle de la Vivienda`,`v`.`numVivienda` AS `Numero de la Vivienda`,`z`.`nombreZonaUrbana` AS `Zona Urbana` from (((((`tfamiliapersona` `fp` join `tfamilia` `f` on((`f`.`idFamilia` = `fp`.`idFamilia`))) join `tpersona` `p` on((`fp`.`idPersona` = `p`.`idPersona`))) join `tpersonavivienda` `pv` on((`p`.`idPersona` = `pv`.`idPersona`))) join `tvivienda` `v` on((`pv`.`idVivienda` = `v`.`idVivienda`))) join `tzonaurbana` `z` on((`v`.`idZonaUrbana` = `z`.`idZonaUrbana`))) where (`fp`.`cabeceraFamilia` = 1) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
