@@ -167,8 +167,8 @@ ORDER BY viviendas DESC, zona;
 
 ## Limitaciones y posibles mejoras
 
-- Los supuestos 1, 2 y 8 se **verifican mediante vistas**, pero la base de datos no impide registrar datos que los incumplan.
+- Los supuestos 1 y 2 se **verifican mediante vistas**, pero la base de datos no impide registrar datos que los incumplan.
 - Se podrían agregar restricciones `UNIQUE` o `CHECK` y triggers para impedir los datos inválidos en lugar de solo detectarlos.
 
 ## Autor
-[Mendoza Moreno Luis Diego] — [github.com/uniqueP4ris](https://github.com/uniqueP4ris)
+Mendoza Moreno Luis Diego — [github.com/uniqueP4ris](https://github.com/uniqueP4ris)
